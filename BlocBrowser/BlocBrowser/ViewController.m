@@ -79,6 +79,15 @@
     }
     
     self.view = mainView;
+    
+    //Welcome Message UIAlertController
+    
+    UIAlertController *welcomeAlert = [UIAlertController alertControllerWithTitle:@"Welcome to blocbrowser!" message:@"If you want to get started, press the button below:" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *welcomeAction = [UIAlertAction actionWithTitle:@"Do it!" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {}];
+    
+    [welcomeAlert addAction:welcomeAction];
+    [self presentViewController:welcomeAlert animated:YES completion:nil];
 }
 
 - (void)viewDidLoad {
