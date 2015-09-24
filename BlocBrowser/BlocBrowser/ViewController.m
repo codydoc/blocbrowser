@@ -36,7 +36,7 @@
     self.textField.returnKeyType = UIReturnKeyDone;
     self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.textField.placeholder = NSLocalizedString(@"Website URL", @"Placeholder text for web browser URL field");
+    self.textField.placeholder = NSLocalizedString(@"Website URL or Google Search", @"Placeholder text for web browser URL field");
     self.textField.backgroundColor = [UIColor colorWithWhite:220/255.0f alpha:1];
     self.textField.delegate = self;
     
@@ -122,16 +122,37 @@
     
     NSString *URLString = textField.text;
     
-    NSURL *URL = [NSURL URLWithString:URLString];
+    //Work here
     
-    if (!URL.scheme) {
-        // The user didn't type http: or https:
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", URLString]];
+    //Searching for space in string
+    if([URLString rangeOfString:@" "].location == NSNotFound){
+    
+        NSURL *URL = [NSURL URLWithString:URLString];
+        
+        if (!URL.scheme) {
+            // The user didn't type http: or https:
+            URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", URLString]];
+        }
+        
+        if (URL) {
+            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+            [self.webView loadRequest:request];
+        }
+    
     }
     
-    if (URL) {
+    //Else no space was found, assume Google search query
+    else{
+    
+        NSMutableString *mutableSearch = [[URLString stringByReplacingOccurrencesOfString:@" " withString:@"+"] mutableCopy];
+        NSMutableString *googleBase = [[NSMutableString alloc] initWithString: @"http://www.google.com/search?q="];
+        NSString *googleURL = [googleBase stringByAppendingString:mutableSearch];
+        
+        NSURL *URL = [NSURL URLWithString:googleURL];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         [self.webView loadRequest:request];
+        
+        
     }
     
     return NO;
