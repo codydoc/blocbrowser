@@ -72,6 +72,8 @@
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     
+    self.awesomeToolbar.frame = CGRectMake(20,100,280,60);
+    
     //Test to see if activity indicator works
     //[self.activityIndicator startAnimating];
 }
@@ -89,7 +91,7 @@
     self.textField.frame = CGRectMake(0, 0, width, itemHeight);
     self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), width, browserHeight);
     
-    self.awesomeToolbar.frame = CGRectMake(20,100,280,60);
+    //self.awesomeToolbar.frame = CGRectMake(20,100,280,60);
 
 }
 
@@ -212,12 +214,12 @@
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPinchWithScale:(CGFloat)scale{
     
     CGPoint startingPoint = toolbar.frame.origin;
-    CGFloat newWidth = CGRectGetWidth(toolbar.frame)+ scale;
+    CGFloat newWidth = CGRectGetWidth(toolbar.frame) * scale;
     
     NSLog(@"Width = %f",CGRectGetWidth(toolbar.frame));
     NSLog(@"New Width = %f",newWidth);
     
-    CGFloat newHeight = CGRectGetHeight(toolbar.frame)+ scale;
+    CGFloat newHeight = CGRectGetHeight(toolbar.frame) * scale;
     
     CGRect potentialNewFrame = CGRectMake(startingPoint.x, startingPoint.y, newWidth, newHeight);
     
