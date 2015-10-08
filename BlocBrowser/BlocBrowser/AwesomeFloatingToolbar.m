@@ -17,6 +17,7 @@
 @property (nonatomic,strong) UILabel *currentLabel;
 @property (nonatomic,strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic,strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic,strong) UILongPressGestureRecognizer *longPressGesture;
 
 @property (nonatomic,strong) UIPinchGestureRecognizer *pinchGesture;
 
@@ -81,6 +82,9 @@
         self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
         [self addGestureRecognizer:self.pinchGesture];
         
+        self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
+        [self addGestureRecognizer:self.longPressGesture];
+        
     }
     
     return self;
@@ -131,6 +135,23 @@
 
 }
 
+-(void) setColors {
+
+    NSLog(@"You made it into set colors");
+    
+    for(UILabel *thisLabel in self.labels){
+    
+        UIColor *randomRGBColor = [[UIColor alloc] initWithRed:arc4random()%256/256.0
+                                                         green:arc4random()%256/256.0
+                                                          blue:arc4random()%256/256.0
+                                                         alpha:1.0];
+        
+        thisLabel.backgroundColor = randomRGBColor;
+        [self addSubview:thisLabel];
+    
+    }
+
+}
 
 #pragma mark - Touch Handling
 
@@ -220,6 +241,40 @@
     }
 }
 
+- (void) longPressed:(UILongPressGestureRecognizer *)recognizer{
+
+    if(recognizer.state == UIGestureRecognizerStateBegan){
+        NSLog(@"Long press has begun");
+        [self.delegate floatingToolbar:self didTryToChangeColors:true];
+        
+    }
+
+    if(recognizer.state == UIGestureRecognizerStateEnded){
+        NSLog(@"Long press has ended!");
+        [self.delegate floatingToolbar:self didTryToChangeColors:false];
+        
+    }
+
+
+    if(recognizer.state == UIGestureRecognizerStateChanged){
+        NSLog(@"Long press has begun");
+        [self.delegate floatingToolbar:self didTryToChangeColors:true];
+    
+    }
+    
+    /*
+    while(recognizer.state != UIGestureRecognizerStateEnded){
+        
+        NSLog(@"Long press has begun");
+        [self.delegate floatingToolbar:self didTryToChangeColors:true];
+        
+        
+    }
+     */
+    
+    
+    
+}
 
 
 @end

@@ -231,4 +231,18 @@
 
 }
 
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToChangeColors:(BOOL)isHolding{
+
+    if(isHolding)
+    {
+    
+        NSLog(@"You made it into isHolding!");
+        
+        [toolbar setColors];
+        
+    }
+
+
+}
+
 @end
